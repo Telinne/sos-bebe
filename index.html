@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOS-Bébé — Guide Parents Intelligent</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FDF8F2;
+    --blush: #F5C5B0;
+    --peach: #EFA07A;
+    --terracotta: #C96B3F;
+    --soft-brown: #8B5E3C;
+    --warm-dark: #2C1A0E;
+    --sage: #A8B89A;
+    --sky: #B8D4E8;
+    --lavender: #D4C5E8;
+    --mint: #B8E0D4;
+    --card-bg: rgba(255,255,255,0.85);
+    --shadow: 0 8px 40px rgba(44,26,14,0.10);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--warm-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== BACKGROUND ===== */
+  .bg-blobs {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    overflow: hidden;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  .blob-1 { width: 500px; height: 500px; background: var(--blush); top: -100px; left: -150px; animation-delay: 0s; }
+  .blob-2 { width: 400px; height: 400px; background: var(--sky); top: 40%; right: -100px; animation-delay: -5s; }
+  .blob-3 { width: 350px; height: 350px; background: var(--mint); bottom: -100px; left: 30%; animation-delay: -10s; }
+  .blob-4 { width: 300px; height: 300px; background: var(--lavender); top: 20%; left: 40%; animation-delay: -7s; }
+  @keyframes drift {
+    from { transform: translate(0,0) scale(1); }
+    to { transform: translate(30px, 20px) scale(1.08); }
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    position: relative; z-index: 10;
+    padding: 0 40px;
+    height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(253,248,242,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(239,160,122,0.2);
+    position: sticky; top: 0;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 800;
+    color: var(--terracotta);
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--peach), var(--terracotta));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(201,107,63,0.35);
+  }
+  .logo-sub { font-size: 0.55rem; font-family: 'DM Sans', sans-serif; font-weight: 300; color: var(--soft-brown); display: block; letter-spacing: 2px; text-transform: uppercase; margin-top: -4px; }
+  nav { display: flex; gap: 8px; }
+  nav a {
+    text-decoration: none; color: var(--soft-brown);
+    font-size: 0.85rem; font-weight: 500; padding: 6px 16px;
+    border-radius: 20px; transition: all 0.2s;
+  }
+  nav a:hover { background: var(--blush); color: var(--terracotta); }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 70px 20px 50px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(239,160,122,0.4);
+    border-radius: 30px; padding: 6px 18px;
+    font-size: 0.78rem; font-weight: 500; color: var(--terracotta);
+    margin-bottom: 24px;
+    backdrop-filter: blur(8px);
+    animation: fadeDown 0.6s ease both;
+  }
+  .hero-badge span { width: 6px; height: 6px; background: var(--peach); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 800; line-height: 1.15;
+    color: var(--warm-dark);
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+  h1 em { color: var(--terracotta); font-style: italic; }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--soft-brown); font-weight: 300;
+    max-width: 520px; margin: 16px auto 0; line-height: 1.7;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ===== MAIN CARD ===== */
+  .search-card {
+    position: relative; z-index: 2;
+    max-width: 780px; margin: 40px auto;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 28px;
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: var(--shadow);
+    padding: 36px 40px;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+
+  .step-indicator {
+    display: flex; gap: 8px; margin-bottom: 28px; justify-content: center;
+  }
+  .step-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--blush); transition: all 0.3s;
+  }
+  .step-dot.active { width: 28px; border-radius: 4px; background: var(--peach); }
+  .step-dot.done { background: var(--sage); }
+
+  /* AGE SELECTOR */
+  .section-label {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--peach);
+    margin-bottom: 14px;
+  }
+  .age-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px; margin-bottom: 28px;
+  }
+  .age-btn {
+    border: 1.5px solid rgba(239,160,122,0.3);
+    background: rgba(255,255,255,0.6);
+    border-radius: 14px; padding: 12px 10px;
+    cursor: pointer; transition: all 0.2s;
+    text-align: center;
+  }
+  .age-btn .emoji { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+  .age-btn .label { font-size: 0.8rem; font-weight: 500; color: var(--soft-brown); }
+  .age-btn:hover { border-color: var(--peach); background: rgba(245,197,176,0.2); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,107,63,0.12); }
+  .age-btn.selected { border-color: var(--terracotta); background: linear-gradient(135deg, rgba(245,197,176,0.4), rgba(239,160,122,0.2)); box-shadow: 0 6px 20px rgba(201,107,63,0.18); }
+  .age-btn.selected .label { color: var(--terracotta); font-weight: 600; }
+
+  /* CATEGORY SELECTOR */
+  .category-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px; margin-bottom: 28px;
+  }
+  .cat-btn {
+    border: 1.5px solid rgba(239,160,122,0.3);
+    background: rgba(255,255,255,0.6);
+    border-radius: 14px; padding: 14px 12px;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cat-btn .cat-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .cat-btn .cat-text { font-size: 0.82rem; font-weight: 500; color: var(--soft-brown); line-height: 1.3; }
+  .cat-btn:hover { border-color: var(--peach); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+  .cat-btn.selected { border-color: var(--terracotta); }
+  .cat-btn.selected .cat-text { color: var(--terracotta); font-weight: 600; }
+
+  /* SYMPTOM TAGS */
+  .symptom-tags {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;
+  }
+  .sym-tag {
+    border: 1.5px solid rgba(239,160,122,0.35);
+    background: rgba(255,255,255,0.7);
+    border-radius: 20px; padding: 7px 16px;
+    font-size: 0.82rem; font-weight: 500; color: var(--soft-brown);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .sym-tag:hover { border-color: var(--peach); background: rgba(245,197,176,0.25); }
+  .sym-tag.selected { border-color: var(--terracotta); background: rgba(245,197,176,0.35); color: var(--terracotta); font-weight: 600; }
+
+  /* FREE SEARCH */
+  .search-row {
+    display: flex; gap: 10px; margin-bottom: 8px;
+  }
+  .search-input {
+    flex: 1;
+    border: 1.5px solid rgba(239,160,122,0.35);
+    background: rgba(255,255,255,0.8);
+    border-radius: 16px; padding: 14px 20px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.92rem;
+    color: var(--warm-dark); outline: none;
+    transition: all 0.2s;
+  }
+  .search-input:focus { border-color: var(--peach); box-shadow: 0 0 0 4px rgba(239,160,122,0.12); }
+  .search-input::placeholder { color: #C4A896; }
+
+  .btn-search {
+    background: linear-gradient(135deg, var(--peach), var(--terracotta));
+    color: white; border: none; border-radius: 16px;
+    padding: 14px 28px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(201,107,63,0.35);
+  }
+  .btn-search:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,107,63,0.45); }
+  .btn-search:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* DIVIDER */
+  .or-divider {
+    text-align: center; position: relative; margin: 20px 0;
+    color: #C4A896; font-size: 0.78rem; letter-spacing: 1px;
+  }
+  .or-divider::before, .or-divider::after {
+    content: ''; position: absolute; top: 50%; width: 44%;
+    height: 1px; background: rgba(239,160,122,0.25);
+  }
+  .or-divider::before { left: 0; }
+  .or-divider::after { right: 0; }
+
+  /* RESULT SECTION */
+  .result-section {
+    position: relative; z-index: 2;
+    max-width: 780px; margin: 0 auto 60px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .result-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .result-header {
+    background: linear-gradient(135deg, var(--terracotta), var(--soft-brown));
+    padding: 24px 32px;
+    color: white;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .result-header-icon {
+    width: 48px; height: 48px; background: rgba(255,255,255,0.2);
+    border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+  }
+  .result-header-text h2 {
+    font-family: 'Playfair Display', serif; font-size: 1.3rem;
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .result-header-text p { font-size: 0.82rem; opacity: 0.8; }
+
+  .result-body { padding: 28px 32px; }
+
+  .result-body h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.1rem;
+    font-weight: 600; color: var(--terracotta); margin: 20px 0 10px;
+  }
+  .result-body h3:first-child { margin-top: 0; }
+  .result-body p { font-size: 0.9rem; line-height: 1.75; color: #4A3728; margin-bottom: 10px; }
+  .result-body ul { padding-left: 20px; margin-bottom: 12px; }
+  .result-body ul li { font-size: 0.88rem; line-height: 1.7; color: #4A3728; margin-bottom: 4px; }
+  .result-body strong { color: var(--soft-brown); }
+
+  .alert-box {
+    background: linear-gradient(135deg, rgba(245,197,176,0.3), rgba(239,160,122,0.15));
+    border: 1.5px solid rgba(239,160,122,0.4);
+    border-radius: 14px; padding: 16px 20px; margin: 16px 0;
+  }
+  .alert-box.urgent {
+    background: linear-gradient(135deg, rgba(255,200,200,0.35), rgba(255,150,150,0.15));
+    border-color: rgba(220,80,80,0.35);
+  }
+  .alert-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; color: var(--terracotta); }
+  .alert-box.urgent .alert-title { color: #B03030; }
+
+  .tip-row { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tip-chip {
+    background: rgba(168,184,154,0.2); border: 1px solid rgba(168,184,154,0.5);
+    border-radius: 10px; padding: 8px 14px; font-size: 0.8rem; color: #4A6040;
+  }
+
+  .sub-symptom-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 16px; }
+  .sub-tag {
+    background: rgba(184,212,232,0.3); border: 1px solid rgba(184,212,232,0.6);
+    border-radius: 20px; padding: 5px 14px; font-size: 0.78rem; color: #2A5070; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sub-tag:hover { background: rgba(184,212,232,0.5); }
+
+  .loading-dots {
+    display: flex; align-items: center; gap: 8px; justify-content: center; padding: 40px;
+    color: var(--soft-brown); font-size: 0.9rem;
+  }
+  .dot-anim { display: flex; gap: 5px; }
+  .dot-anim span {
+    width: 8px; height: 8px; background: var(--peach); border-radius: 50%;
+    animation: bounce 1.2s ease-in-out infinite;
+  }
+  .dot-anim span:nth-child(2) { animation-delay: 0.2s; }
+  .dot-anim span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-10px)} }
+
+  /* QUICK EXAMPLES */
+  .quick-section {
+    position: relative; z-index: 1;
+    max-width: 780px; margin: 0 auto 40px;
+  }
+  .quick-title { font-size: 0.72rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--soft-brown); margin-bottom: 14px; text-align: center; }
+  .quick-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .quick-chip {
+    background: rgba(255,255,255,0.7); border: 1px solid rgba(239,160,122,0.3);
+    border-radius: 20px; padding: 8px 18px; font-size: 0.82rem; color: var(--soft-brown);
+    cursor: pointer; transition: all 0.2s; backdrop-filter: blur(8px);
+  }
+  .quick-chip:hover { background: rgba(245,197,176,0.3); border-color: var(--peach); transform: translateY(-1px); }
+
+  /* HIDDEN */
+  .hidden { display: none !important; }
+
+  /* FOOTER */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center; padding: 30px;
+    font-size: 0.78rem; color: #C4A896;
+    border-top: 1px solid rgba(239,160,122,0.15);
+  }
+  footer strong { color: var(--soft-brown); }
+
+  /* RESET BTN */
+  .btn-reset {
+    background: none; border: 1.5px solid rgba(239,160,122,0.4);
+    border-radius: 12px; padding: 10px 20px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 0.84rem; color: var(--soft-brown);
+    transition: all 0.2s; margin-right: 10px;
+  }
+  .btn-reset:hover { background: rgba(245,197,176,0.2); border-color: var(--peach); }
+
+  .action-row { display: flex; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(239,160,122,0.15); }
+
+  @media (max-width: 600px) {
+    header { padding: 0 16px; }
+    .search-card, .result-body { padding: 24px 20px; }
+    .result-header { padding: 20px 20px; }
+    h1 { font-size: 2rem; }
+    nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-blobs">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+
+<header>
+  <a class="logo" href="#">
+    <div class="logo-icon">🌸</div>
+    <div>
+      SOS-Bébé
+      <span class="logo-sub">Guide parents intelligent</span>
+    </div>
+  </a>
+  <nav>
+    <a href="#">Accueil</a>
+    <a href="#">À propos</a>
+    <a href="#">Urgences</a>
+  </nav>
+</header>
+
+<main style="padding: 0 20px;">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge"><span></span> Propulsé par l'intelligence artificielle</div>
+    <h1>Toutes vos questions de<br><em>parents</em>, une réponse.</h1>
+    <p class="hero-sub">Sélectionnez l'âge de votre enfant, le type de préoccupation, et obtenez une réponse détaillée et bienveillante en quelques secondes.</p>
+  </section>
+
+  <!-- SEARCH CARD -->
+  <div class="search-card" id="searchCard">
+
+    <div class="step-indicator" id="stepIndicator">
+      <div class="step-dot active" id="dot1"></div>
+      <div class="step-dot" id="dot2"></div>
+      <div class="step-dot" id="dot3"></div>
+    </div>
+
+    <!-- STEP 1: AGE -->
+    <div id="step1">
+      <div class="section-label">Étape 1 · Âge de votre enfant</div>
+      <div class="age-grid">
+        <button class="age-btn" onclick="selectAge(this,'0-1 mois','🐣')">
+          <span class="emoji">🐣</span>
+          <span class="label">0–1 mois<br><small>Nouveau-né</small></span>
+        </button>
+        <button class="age-btn" onclick="selectAge(this,'1-3 mois','🌱')">
+          <span class="emoji">🌱</span>
+          <span class="label">1–3 mois</span>
+        </button>
+        <button class="age-btn" onclick="selectAge(this,'3-6 mois','🍼')">
+          <span class="emoji">🍼</span>
+          <span class="label">3–6 mois</span>
+        </button>
+        <button class="age-btn" onclick="selectAge(this,'6-9 mois','🧸')">
+          <span class="emoji">🧸</span>
+          <span class="label">6–9 mois</span>
+        </button>
+        <button class="age-btn" onclick="selectAge(this,'9-12 mois','🚼')">
+          <span class="emoji">🚼</span>
+          <span class="label">9–12 mois</span>
+        </button>
+        <button class="age-btn" onclick="selectAge(this,'1-2 ans','🌟')">
+          <span class="emoji">🌟</span>
+          <span class="label">1–2 ans</span>
+        </button>
+        <button class="age-btn" onclick="selectAge(this,'2-3 ans','🎨')">
+          <span class="emoji">🎨</span>
+          <span class="label">2–3 ans</span>
+        </button>
+        <button class="age-btn" onclick="selectAge(this,'3-5 ans','🦋')">
+          <span class="emoji">🦋</span>
+          <span class="label">3–5 ans</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 2: CATEGORY -->
+    <div id="step2" class="hidden">
+      <div class="section-label">Étape 2 · Thème de votre préoccupation</div>
+      <div class="category-grid" id="catGrid"></div>
+    </div>
+
+    <!-- STEP 3: SYMPTOM -->
+    <div id="step3" class="hidden">
+      <div class="section-label">Étape 3 · Symptômes ou situation <small style="text-transform:none;letter-spacing:0;font-weight:400;color:#C4A896">(sélectionnez ou décrivez)</small></div>
+      <div class="symptom-tags" id="symptomTags"></div>
+      <div class="or-divider">ou décrivez avec vos mots</div>
+      <div class="search-row">
+        <input type="text" class="search-input" id="freeInput" placeholder='Ex: "il recrache tout", "elle pleure dès que je la pose", "a l\'air d\'avoir mal au ventre"…' />
+        <button class="btn-search" id="askBtn" onclick="askClaude()">🔍 Analyser</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- QUICK EXAMPLES -->
+  <div class="quick-section" id="quickSection">
+    <div class="quick-title">Questions fréquentes</div>
+    <div class="quick-grid">
+      <div class="quick-chip" onclick="quickSearch('mon bébé de 2 mois pleure tout le soir on sait plus quoi faire')">😢 Il pleure tout le soir</div>
+      <div class="quick-chip" onclick="quickSearch('bébé 6 mois se réveille toutes les heures la nuit')">😴 Réveils toutes les heures</div>
+      <div class="quick-chip" onclick="quickSearch('bébé 4 mois a de la fièvre à 38.5 que faire')">🌡️ Fièvre, j'ai peur</div>
+      <div class="quick-chip" onclick="quickSearch('comment commencer à donner de la purée à mon bébé de 5 mois')">🥕 Commencer les purées</div>
+      <div class="quick-chip" onclick="quickSearch('mon enfant de 2 ans fait des crises terribles au sol')">😤 Crises au sol</div>
+      <div class="quick-chip" onclick="quickSearch('bébé 3 mois refuse le biberon depuis ce matin')">🍼 Refuse le biberon</div>
+      <div class="quick-chip" onclick="quickSearch('bébé a la diarrhée depuis hier selles très liquides')">💧 Diarrhée depuis hier</div>
+      <div class="quick-chip" onclick="quickSearch('boutons rouges partout sur le corps de mon bébé de 5 mois')">🌸 Boutons partout</div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-section hidden" id="resultSection">
+    <div class="result-card">
+      <div class="result-header">
+        <div class="result-header-icon" id="resultIcon">🌸</div>
+        <div class="result-header-text">
+          <h2 id="resultTitle">Analyse en cours…</h2>
+          <p id="resultMeta"></p>
+        </div>
+      </div>
+      <div class="result-body" id="resultBody">
+        <div class="loading-dots">
+          <div class="dot-anim"><span></span><span></span><span></span></div>
+          <span>Analyse en cours…</span>
+        </div>
+      </div>
+      <div class="action-row">
+        <button class="btn-reset" onclick="resetAll()">↩ Nouvelle recherche</button>
+        <button class="btn-search" onclick="askClaude()">🔄 Affiner la réponse</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <strong>SOS-Bébé</strong> — Informations générales uniquement. En cas d'urgence, appelez le <strong>15 (SAMU)</strong> ou consultez un médecin. Ce site ne remplace pas un avis médical professionnel.
+</footer>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const categories = {
+  'Pleurs & comportement': { icon: '😢', bg: '#FDE8E0', tags: ['Il/elle pleure tout le temps','Cris la nuit sans raison','Hurle après le biberon','Pleure le soir et rien ne le calme','Inconsolable depuis des heures','Cris aigus qui font peur','Pleure dès que je le pose','Il/elle se met en colère pour rien'] },
+  'Sommeil': { icon: '😴', bg: '#E8EAF8', tags: ['Il/elle ne dort pas la nuit','Se réveille toutes les heures','Impossible à endormir','Dort trop, ça m\'inquiète','Grogne et s\'agite en dormant','Se lève encore plus souvent qu\'avant','Les siestes durent 10 minutes','Refuse la sieste'] },
+  'Alimentation': { icon: '🍼', bg: '#E8F4E0', tags: ['Refuse le sein depuis ce matin','Jette le biberon','Recrache tout ce qu\'il mange','Vomit après chaque repas','J\'ai l\'impression de pas avoir assez de lait','Refuse la purée / les morceaux','Ne mange presque rien','Tète toutes les heures'] },
+  'Santé & maladies': { icon: '🌡️', bg: '#FFF0E0', tags: ['Il a de la fièvre','Toux qui ne passe pas','Nez qui coule tout le temps','Diarrhée depuis hier','N\'a pas fait caca depuis 3 jours','Vomissements répétés','Se touche les oreilles','Respire bizarrement'] },
+  'Peau & rougeurs': { icon: '🌸', bg: '#F8E8F0', tags: ['Boutons partout sur le corps','Joues toutes rouges','Peau qui pèle / qui gratte','Plaques rouges qui reviennent','Petits boutons blancs sur le nez','Fesses toutes rouges','Croûtes sur la tête','Yeux collés le matin'] },
+  'Développement': { icon: '🌱', bg: '#E0F8F0', tags: ['Ne tient pas encore sa tête','N\'a pas encore souri','Ne gazouille pas / pas de sons','Me semble en retard','Ne s\'assoit toujours pas','Ne marche pas encore','Ne dit toujours aucun mot','Ses dents poussent et il souffre'] },
+  'Digestion': { icon: '💨', bg: '#F0F4E8', tags: ['Beaucoup de gaz, ça a l\'air douloureux','Ventre dur et il crie','N\'a pas fait caca depuis longtemps','Selles vertes, c\'est normal ?','Selles très liquides','Recrache souvent après les repas','Hoquet très fréquent','Se cambre en arrière après le repas'] },
+  'Émotions & tonus': { icon: '💛', bg: '#FFFAE0', tags: ['Pleure dès que je pars','A très peur des inconnus','Fait des crises monumentales','Mord ou frappe les autres','N\'arrête pas de dire non à tout','Très sensible, pleure pour rien','Très timide / ne parle à personne','Veut être dans mes bras 24h/24'] },
+};
+
+const categoryIcons = {'Pleurs & comportement':'😢','Sommeil':'😴','Alimentation':'🍼','Santé & maladies':'🌡️','Peau & rougeurs':'🌸','Développement':'🌱','Digestion':'💨','Émotions & tonus':'💛'};
+
+let selectedAge = '';
+let selectedAgeEmoji = '';
+let selectedCategory = '';
+let selectedSymptoms = [];
+
+// ============================================================
+// STEP NAVIGATION
+// ============================================================
+function setStep(n) {
+  document.getElementById('step1').classList.toggle('hidden', n!==1);
+  document.getElementById('step2').classList.toggle('hidden', n!==2);
+  document.getElementById('step3').classList.toggle('hidden', n!==3);
+  for(let i=1;i<=3;i++){
+    const d = document.getElementById('dot'+i);
+    d.classList.remove('active','done');
+    if(i===n) d.classList.add('active');
+    else if(i<n) d.classList.add('done');
+  }
+}
+
+// ============================================================
+// AGE
+// ============================================================
+function selectAge(btn, age, emoji) {
+  document.querySelectorAll('.age-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedAge = age;
+  selectedAgeEmoji = emoji;
+  setTimeout(()=> { showCategories(); setStep(2); }, 300);
+}
+
+// ============================================================
+// CATEGORIES
+// ============================================================
+function showCategories() {
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = '';
+  Object.entries(categories).forEach(([name, data]) => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn';
+    btn.innerHTML = `<div class="cat-icon" style="background:${data.bg}">${data.icon}</div><span class="cat-text">${name}</span>`;
+    btn.onclick = () => selectCategory(btn, name, data);
+    grid.appendChild(btn);
+  });
+}
+
+function selectCategory(btn, name, data) {
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedCategory = name;
+  selectedSymptoms = [];
+  setTimeout(()=> { showSymptoms(data); setStep(3); }, 300);
+}
+
+// ============================================================
+// SYMPTOMS
+// ============================================================
+function showSymptoms(data) {
+  const container = document.getElementById('symptomTags');
+  container.innerHTML = '';
+  data.tags.forEach(tag => {
+    const el = document.createElement('div');
+    el.className = 'sym-tag';
+    el.textContent = tag;
+    el.onclick = () => toggleSymptom(el, tag);
+    container.appendChild(el);
+  });
+}
+
+function toggleSymptom(el, tag) {
+  el.classList.toggle('selected');
+  if(selectedSymptoms.includes(tag)) selectedSymptoms = selectedSymptoms.filter(s=>s!==tag);
+  else selectedSymptoms.push(tag);
+}
+
+// ============================================================
+// ASK CLAUDE
+// ============================================================
+async function askClaude() {
+  const freeText = document.getElementById('freeInput').value.trim();
+  const symsText = selectedSymptoms.length ? selectedSymptoms.join(', ') : '';
+  const query = freeText || symsText || 'informations générales';
+
+  if(!selectedAge && !freeText) { alert('Veuillez d\'abord sélectionner l\'âge de votre enfant.'); return; }
+
+  const ageInfo = selectedAge ? `Enfant de ${selectedAge}` : 'Âge non précisé';
+  const catInfo = selectedCategory ? `Catégorie : ${selectedCategory}` : '';
+  const prompt = `Tu es SOS-Bébé, une assistante bienveillante et experte pour les parents. Tu parles comme une amie pédiatre : chaleureuse, claire, jamais condescendante.
+
+RÈGLES IMPORTANTES :
+- Les parents t'écrivent souvent avec des fautes, des abréviations, des mots familiers ("recrache tout", "fait ses dents", "il pète tout le temps", "crise de nerfs", "bobo", "dodo", "pipi", "caca", "biberon qui passe pas", "elle fait ses nuits", etc.) → comprends-les parfaitement et réponds naturellement
+- Reformule toujours ce que tu as compris au début pour rassurer
+- Parle TOUJOURS en français simple, sans jargon médical (ou explique-le si tu l'utilises)
+- Ne commence JAMAIS par "Bien sûr !" ou des formules robotiques
+- Sois chaleureuse, tu sais que les parents sont souvent stressés et fatigués
+
+Contexte : ${ageInfo}. ${catInfo}.
+Ce que décrit le parent : "${query}"
+
+Réponds avec cette structure :
+1. **Ce que j'ai compris** (reformuler en 1 phrase naturelle ce que le parent décrit)
+2. **Pas de panique 💛** (2-3 phrases rassurantes et concrètes)
+3. **Pourquoi ça arrive ?** (causes probables adaptées à l'âge, en langage simple)
+4. **D'autres signes possibles** (sous-symptômes souvent associés, pour aider à identifier)
+5. **Quoi faire maintenant ?** (conseils pratiques, étape par étape, langage du quotidien)
+6. **Quand appeler le médecin ?** ⚠️ (signes d'alerte clairs et précis)
+7. **💡 Le petit plus** (un conseil bienveillant, une astuce de parent à parent)
+
+Utilise quelques émojis pour aérer. Sois concrète et humaine avant tout.`;
+
+  // Show result section
+  document.getElementById('resultSection').classList.remove('hidden');
+  document.getElementById('quickSection').classList.add('hidden');
+  document.getElementById('resultIcon').textContent = selectedAgeEmoji || categoryIcons[selectedCategory] || '🌸';
+  document.getElementById('resultTitle').textContent = query.length > 50 ? query.substring(0,50)+'…' : query;
+  document.getElementById('resultMeta').textContent = `${ageInfo}${catInfo ? ' · '+catInfo : ''}`;
+  document.getElementById('resultBody').innerHTML = `<div class="loading-dots"><div class="dot-anim"><span></span><span></span><span></span></div><span>Analyse de votre question…</span></div>`;
+
+  document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await response.json();
+    const text = data.text || 'Désolé, une erreur est survenue.';
+    renderResult(text);
+  } catch(e) {
+    document.getElementById('resultBody').innerHTML = `<p style="color:#c00">Une erreur est survenue. Veuillez réessayer.</p>`;
+  }
+}
+
+function renderResult(text) {
+  // Convert markdown-like to HTML
+  let html = text
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^# (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^\d+\. \*\*([^*]+)\*\*/gm, '<h3>$1</h3>')
+    .replace(/^\d+\. (.+)$/gm, '<p><strong>$1</strong></p>')
+    .replace(/^[-•] (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, (m) => '<ul>' + m + '</ul>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>');
+
+  // Wrap alerts
+  html = html.replace(/(⚠️[^<]+(<br>|<\/p>))/g, '<div class="alert-box urgent"><div class="alert-title">⚠️ Attention</div>$1</div>');
+  html = html.replace(/(💡[^<]+(<br>|<\/p>))/g, '<div class="alert-box"><div class="alert-title">💡 Conseil</div>$1</div>');
+
+  document.getElementById('resultBody').innerHTML = html;
+}
+
+// ============================================================
+// QUICK SEARCH
+// ============================================================
+function quickSearch(query) {
+  selectedAge = '';
+  selectedAgeEmoji = '❓';
+  selectedCategory = '';
+  selectedSymptoms = [];
+  document.getElementById('freeInput').value = query;
+  // Jump to step 3 directly
+  setStep(3);
+  document.getElementById('step1').classList.add('hidden');
+  document.getElementById('step2').classList.add('hidden');
+  document.getElementById('step3').classList.remove('hidden');
+  document.getElementById('symptomTags').innerHTML = '';
+  askClaude();
+}
+
+// ============================================================
+// RESET
+// ============================================================
+function resetAll() {
+  selectedAge = '';
+  selectedAgeEmoji = '';
+  selectedCategory = '';
+  selectedSymptoms = [];
+  document.getElementById('freeInput').value = '';
+  document.getElementById('resultSection').classList.add('hidden');
+  document.getElementById('quickSection').classList.remove('hidden');
+  document.querySelectorAll('.age-btn,.cat-btn,.sym-tag').forEach(b=>b.classList.remove('selected'));
+  setStep(1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Init
+setStep(1);
+</script>
+</body>
+</html>
