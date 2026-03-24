@@ -1,33 +1,23 @@
-export default async function handler(req, res) {
-  // Allow CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+function getResponse(input) {
+ input = input.toLowerCase();
 
-  const { prompt } = req.body;
-  if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
+ if (input.includes("pleure")) {
+   return "Votre bébé peut pleurer à cause de coliques, fatigue ou besoin de contact.";
+ }
 
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    });
+ if (input.includes("dort mal")) {
+   return "Le sommeil des nourrissons est irrégulier, c’est normal avant 3 mois.";
+ }
 
-    const data = await response.json();
-    const text = data.content?.map(b => b.text || '').join('') || 'Désolé, une erreur est survenue.';
-    res.status(200).json({ text });
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur serveur', details: err.message });
-  }
+ if (input.includes("recrache")) {
+   return "Les reflux sont fréquents chez les bébés, surtout après le repas.";
+ }
+
+ return "Essayez de reformuler votre question ou consultez un professionnel de santé.";
+}
+
+function handleSearch() {
+ const input = document.getElementById("searchInput").value;
+ const result = getResponse(input);
+ document.getElementById("result").innerText = result;
 }
